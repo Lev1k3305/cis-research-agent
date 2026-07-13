@@ -1,0 +1,4 @@
+## 2026-03-05 - Secure Input Validation & Sanitized Errors in API Handlers
+**Vulnerability:** Unvalidated user inputs and leaking of raw backend error stack traces / API responses.
+**Learning:** In Next.js route handlers acting as middleware to third-party endpoints (like Gemini or Bright Data), neglecting input validation opens up potential DoS vectors (e.g. extremely long query inputs) and parameter injection risks. Furthermore, returning raw caught errors or unparsed JSON responses directly to the client leaks API architecture, internal structure, and environment configuration.
+**Prevention:** Always enforce strict constraints (type, length, allowable values) on client payload parameters right at the route entry point. Always wrap third-party API calls in clean try-catch blocks that securely log error stack traces on the server side and present safe, generic messages back to the client interface.

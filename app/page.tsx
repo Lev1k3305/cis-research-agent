@@ -8,26 +8,28 @@ import MatrixRain from "./components/MatrixRain";
 // Typing эффект хук
 function useTypewriter(text: string, speed: number = 5) {
   const [displayed, setDisplayed] = useState("");
-  const [done, setDone] = useState(false);
+  const [prevText, setPrevText] = useState("");
+
+  if (text !== prevText) {
+    setPrevText(text);
+    setDisplayed("");
+  }
 
   useEffect(() => {
     if (!text) return;
-    setDisplayed("");
-    setDone(false);
     let i = 0;
     const timer = setInterval(() => {
       if (i < text.length) {
         setDisplayed(text.slice(0, i + 1));
         i++;
       } else {
-        setDone(true);
         clearInterval(timer);
       }
     }, speed);
     return () => clearInterval(timer);
-  }, [text]);
+  }, [text, speed]);
 
-  return { displayed, done };
+  return { displayed };
 }
 
 function AnimatedCounter({ target, suffix = "" }: { target: number; suffix?: string }) {
@@ -273,9 +275,24 @@ export default function Home() {
     "📊 Формируем отчёт...",
     "✅ Готово!",
   ];
-  const { displayed: typedResult, done: typingDone } = useTypewriter(result, 0);
+  const { displayed: typedResult } = useTypewriter(result, 0);
   const [loading, setLoading] = useState(false);
-  const [history, setHistory] = useState<string[]>([]);
+
+  // Safe state lazy initialization from localStorage
+  const [history, setHistory] = useState<string[]>(() => {
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem("search_history");
+      if (saved) {
+        try {
+          return JSON.parse(saved);
+        } catch {
+          // fallback
+        }
+      }
+    }
+    return [];
+  });
+
   const [lang, setLang] = useState("ru");
   const [country, setCountry] = useState("kz");
 
@@ -297,11 +314,6 @@ export default function Home() {
 
   const txt = t[lang];
   const activeCountry = countries.find(c => c.code === country);
-
-  useEffect(() => {
-    const saved = localStorage.getItem("search_history");
-    if (saved) setHistory(JSON.parse(saved));
-  }, []);
 
   const handleSearch = async (searchQuery?: string) => {
     const q = searchQuery || query;
@@ -333,7 +345,7 @@ export default function Home() {
       });
       const data = await res.json();
       setResult(data.report);
-    } catch (e) {
+    } catch {
       setResult("Error. Please try again.");
     } finally {
       setLoading(false);
@@ -344,18 +356,18 @@ export default function Home() {
   const handleSearch2 = async (searchQuery?: string) => {
     const q = searchQuery || query2;
     if (!q) return;
-    setLoading(true);
-    setResult("");
+    setLoading2(true);
+    setResult2("");
     setStep(0);
 
     let currentStep = 0;
     const stepInterval = setInterval(() => {
-  currentStep += 1;
-  if (currentStep >= 4) {
-    clearInterval(stepInterval);
-  }
-  setStep(currentStep);
-}, 1800);
+      currentStep += 1;
+      if (currentStep >= 4) {
+        clearInterval(stepInterval);
+      }
+      setStep(currentStep);
+    }, 1800);
 
     const selectedCountry = countries.find(c => c.code === country);
     const countryName = selectedCountry?.name[lang as keyof typeof selectedCountry.name] || "Global";
@@ -367,7 +379,7 @@ export default function Home() {
       });
       const data = await res.json();
       setResult2(data.report);
-    } catch (e) {
+    } catch {
       setResult2("Ошибка.");
     } finally {
       setLoading2(false);
@@ -603,7 +615,7 @@ export default function Home() {
       </div>
 
       <p className="text-zinc-600 text-xs mt-6 text-center">
-        Bright Data → Gemini AI → Анализ
+        Bright Data &rarr; Gemini AI &rarr; Анализ
       </p>
     </div>
   </div>
@@ -622,7 +634,7 @@ export default function Home() {
                     {txt.live}
                   </span>
                 </div>
-                <p className="text-zinc-400 text-sm">{txt.query}: <span className="text-green-400 font-medium">"{query}"</span></p>
+                <p className="text-zinc-400 text-sm">{txt.query}: <span className="text-green-400 font-medium">&quot;{query}&quot;</span></p>
               </div>
 
               <button
@@ -683,7 +695,7 @@ export default function Home() {
                     <span className="text-2xl">📊</span>
                     <h2 className="text-xl font-bold text-white">{txt.result}</h2>
                   </div>
-                  <p className="text-zinc-400 text-sm">{txt.query}: <span className="text-green-400 font-medium">"{query2}"</span></p>
+                  <p className="text-zinc-400 text-sm">{txt.query}: <span className="text-green-400 font-medium">&quot;{query2}&quot;</span></p>
                 </div>
                 <div className="bg-zinc-900/60 border border-zinc-700/50 rounded-2xl p-8 backdrop-blur">
                   <ReactMarkdown components={{
