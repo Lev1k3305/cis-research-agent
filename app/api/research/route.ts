@@ -1,7 +1,50 @@
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
-  const { query, country, lang } = await req.json();
+  let body;
+  try {
+    body = await req.json();
+  } catch (err) {
+    console.error("Failed to parse request JSON:", err);
+    return NextResponse.json(
+      { report: "Invalid request payload." },
+      { status: 400 }
+    );
+  }
+
+  const { query, country, lang } = body;
+
+  // Input Validation
+  const supportedLangs = ["ru", "en", "kz", "zh", "de", "fr"];
+
+  if (
+    typeof query !== "string" ||
+    query.trim().length === 0 ||
+    query.length > 100
+  ) {
+    return NextResponse.json(
+      { report: "Invalid query. It must be a non-empty string under 100 characters." },
+      { status: 400 }
+    );
+  }
+
+  if (
+    typeof country !== "string" ||
+    country.trim().length === 0 ||
+    country.length > 50
+  ) {
+    return NextResponse.json(
+      { report: "Invalid country. It must be a non-empty string under 50 characters." },
+      { status: 400 }
+    );
+  }
+
+  if (typeof lang !== "string" || !supportedLangs.includes(lang)) {
+    return NextResponse.json(
+      { report: "Invalid language selection." },
+      { status: 400 }
+    );
+  }
 
   try {
     const scrapeRes = await fetch("https://api.brightdata.com/request", {
@@ -16,6 +59,14 @@ export async function POST(req: NextRequest) {
         format: "raw",
       }),
     });
+
+    if (!scrapeRes.ok) {
+      console.error(`Bright Data request failed with status: ${scrapeRes.status}`);
+      return NextResponse.json(
+        { report: "An error occurred while fetching web context. Please try again." },
+        { status: 502 }
+      );
+    }
 
     const htmlData = await scrapeRes.text();
 
@@ -58,17 +109,42 @@ export async function POST(req: NextRequest) {
       }
     );
 
+    if (!geminiRes.ok) {
+      console.error(`Gemini API request failed with status: ${geminiRes.status}`);
+      return NextResponse.json(
+        { report: "An error occurred while analyzing the job market. Please try again." },
+        { status: 502 }
+      );
+    }
+
     const geminiData = await geminiRes.json();
 
     if (!geminiData.candidates?.[0]) {
-      return NextResponse.json({ report: "Error: " + JSON.stringify(geminiData) });
+      console.error("Gemini response missing expected candidates structure:", JSON.stringify(geminiData));
+      return NextResponse.json(
+        { report: "An error occurred while generating the report. Please try again." },
+        { status: 502 }
+      );
     }
 
-    const report = geminiData.candidates[0].content.parts[0].text;
+    const report = geminiData.candidates[0].content?.parts?.[0]?.text;
+    if (!report) {
+      console.error("Gemini candidate structure lacks part text:", JSON.stringify(geminiData));
+      return NextResponse.json(
+        { report: "An error occurred while generating the report. Please try again." },
+        { status: 502 }
+      );
+    }
+
     return NextResponse.json({ report });
 
   } catch (error) {
-    console.error(error);
-    return NextResponse.json({ report: "Error occurred. Please try again." });
+    // Log the error details securely on the server
+    console.error("Secure Server Error Log:", error);
+    // Return a safe, generic message to prevent leakage of internal stack traces/details
+    return NextResponse.json(
+      { report: "An unexpected error occurred. Please try again." },
+      { status: 500 }
+    );
   }
 }
