@@ -1,6 +1,37 @@
 import { NextRequest, NextResponse } from "next/server";
 
+// Simple in-memory rate limiter to prevent API abuse (DoS, cost overrun)
+const rateLimitMap = new Map<string, number[]>();
+const RATE_LIMIT_COUNT = 5; // Allow 5 requests
+const RATE_LIMIT_WINDOW = 60 * 1000; // per 1 minute (60,000 ms)
+
+function checkRateLimit(ip: string): boolean {
+  const now = Date.now();
+  const timestamps = rateLimitMap.get(ip) || [];
+
+  // Filter out timestamps outside the current window
+  const recentTimestamps = timestamps.filter((ts) => now - ts < RATE_LIMIT_WINDOW);
+
+  if (recentTimestamps.length >= RATE_LIMIT_COUNT) {
+    return true; // Rate limit exceeded
+  }
+
+  recentTimestamps.push(now);
+  rateLimitMap.set(ip, recentTimestamps);
+  return false;
+}
+
 export async function POST(req: NextRequest) {
+  const ip = req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() || "127.0.0.1";
+
+  if (checkRateLimit(ip)) {
+    console.warn(`Rate limit exceeded for IP: ${ip}`);
+    return NextResponse.json(
+      { report: "Too many requests. Please wait a minute before trying again." },
+      { status: 429 }
+    );
+  }
+
   let body;
   try {
     body = await req.json();
