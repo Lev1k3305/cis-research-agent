@@ -34,14 +34,30 @@ export default function MatrixRain() {
       }
     };
 
-    const interval = setInterval(draw, 50);
+    // Performance optimization: use requestAnimationFrame with time delta throttling (~20 FPS / 50ms interval).
+    // Unlike setInterval, requestAnimationFrame automatically pauses when the browser tab is hidden/backgrounded,
+    // preventing unnecessary CPU/GPU computation and battery drain.
+    let animationFrameId: number;
+    let lastTime = 0;
+    const interval = 50; // Target ~20 FPS
+
+    const render = (currentTime: number) => {
+      animationFrameId = requestAnimationFrame(render);
+      if (currentTime - lastTime >= interval) {
+        lastTime = currentTime - (currentTime % interval);
+        draw();
+      }
+    };
+
+    animationFrameId = requestAnimationFrame(render);
+
     const handleResize = () => {
       canvas.width = window.innerWidth;
       canvas.height = window.innerHeight;
     };
     window.addEventListener("resize", handleResize);
     return () => {
-      clearInterval(interval);
+      cancelAnimationFrame(animationFrameId);
       window.removeEventListener("resize", handleResize);
     };
   }, []);
