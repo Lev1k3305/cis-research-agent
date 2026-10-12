@@ -89,6 +89,7 @@ export async function POST(req: NextRequest) {
         url: `https://www.google.com/search?q=${encodeURIComponent(query + " IT jobs " + country + " 2026")}&num=10`,
         format: "raw",
       }),
+      signal: AbortSignal.timeout(15000), // Enforce 15s timeout to prevent DoS via hung connections
     });
 
     if (!scrapeRes.ok) {
@@ -115,6 +116,7 @@ export async function POST(req: NextRequest) {
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
+        signal: AbortSignal.timeout(15000), // Enforce 15s timeout to prevent DoS via hung connections
         body: JSON.stringify({
           contents: [{
             parts: [{
