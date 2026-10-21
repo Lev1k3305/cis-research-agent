@@ -408,35 +408,34 @@ export default function Home() {
         zIndex: 1
       }}/>
 
-      <div className="relative z-10 flex flex-col items-center px-4 pt-28 pb-16">
-
+      <div className="relative z-10 flex flex-col items-center px-3 sm:px-4 pt-20 sm:pt-28 pb-12 sm:pb-16">
 
         {/* Navbar */}
-        <nav className="fixed top-0 left-0 right-0 z-50 border-b border-green-500/10 bg-black/40 backdrop-blur-md">
-            <div className="max-w-6xl mx-auto px-6 py-3 flex items-center justify-between">
-                <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center justify-center">
-                        <span className="text-green-400 text-sm font-mono font-bold">&gt;_</span>
+        <nav className="fixed top-0 left-0 right-0 z-50 border-b border-green-500/10 bg-black/60 backdrop-blur-md">
+            <div className="max-w-6xl mx-auto px-4 sm:px-6 py-2.5 sm:py-3 flex items-center justify-between gap-2">
+                <div className="flex items-center gap-2 sm:gap-3 min-w-0">
+                    <div className="w-7 h-7 sm:w-8 sm:h-8 bg-green-500/20 border border-green-500/30 rounded-lg flex items-center justify-center shrink-0">
+                        <span className="text-green-400 text-xs sm:text-sm font-mono font-bold">&gt;_</span>
                     </div>
-                    <span className="text-white font-bold text-lg">Global IT Research Agent</span>
+                    <span className="text-white font-bold text-sm sm:text-lg truncate">Global IT Research Agent</span>
                 </div>
-                <div className="flex items-center gap-4">
-                    <span className="text-zinc-500 text-xs font-mono">v1.0.0</span>
+                <div className="flex items-center gap-2 sm:gap-4 shrink-0">
+                    <span className="text-zinc-500 text-[10px] sm:text-xs font-mono">v1.0.0</span>
                     <div className="flex items-center gap-1.5">
                         <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse"/>
-                        <span className="text-green-400 text-xs">Live</span>
+                        <span className="text-green-400 text-[10px] sm:text-xs">Live</span>
                     </div>
                 </div>
             </div>
         </nav>
 
         {/* Language switcher */}
-        <div className="flex gap-1 mb-6 bg-zinc-900/60 border border-zinc-700/30 rounded-xl p-1">
+        <div className="flex gap-1 mb-6 bg-zinc-900/60 border border-zinc-700/30 rounded-xl p-1 max-w-full overflow-x-auto">
           {languages.map((l) => (
             <button
               key={l.code}
               onClick={() => setLang(l.code)}
-              className={`px-3 py-1.5 rounded-lg text-sm font-medium transition-all ${
+              className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
                 lang === l.code
                   ? "bg-green-600 text-white"
                   : "text-zinc-400 hover:text-white"
@@ -448,26 +447,26 @@ export default function Home() {
         </div>
 
         {/* Badge */}
-        <div className="mb-6 px-4 py-1.5 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-sm font-medium">
+        <div className="mb-4 sm:mb-6 px-3 sm:px-4 py-1 sm:py-1.5 rounded-full border border-green-500/30 bg-green-500/10 text-green-400 text-xs sm:text-sm font-medium text-center">
           {txt.badge}
         </div>
 
         {/* Title */}
-        <h1 className="text-5xl md:text-6xl font-bold text-center mb-4 bg-gradient-to-r from-white via-green-200 to-green-700 bg-clip-text text-transparent">
+        <h1 className="text-3xl sm:text-5xl md:text-6xl font-bold text-center mb-3 sm:mb-4 bg-gradient-to-r from-white via-green-200 to-green-700 bg-clip-text text-transparent px-2">
           {txt.title}
         </h1>
-        <p className="text-zinc-400 text-lg text-center mb-10 max-w-xl">
+        <p className="text-zinc-400 text-sm sm:text-lg text-center mb-6 sm:mb-10 max-w-xl px-2">
           {txt.subtitle}
         </p>
 
         {/* Stats */}
-        <div className="grid grid-cols-4 gap-4 w-full max-w-2xl mb-10">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 w-full max-w-2xl mb-8 sm:mb-10">
           {stats.map((stat) => (
-            <div key={stat.label} className="bg-zinc-900/40 border border-zinc-700/30 rounded-xl p-4 text-center">
-              <div className="text-2xl font-bold text-green-400">
+            <div key={stat.label} className="bg-zinc-900/40 border border-zinc-700/30 rounded-xl p-3 sm:p-4 text-center">
+              <div className="text-xl sm:text-2xl font-bold text-green-400">
                 <AnimatedCounter target={stat.value} suffix={stat.suffix}/>
               </div>
-              <div className="text-zinc-500 text-xs mt-1">{stat.label}</div>
+              <div className="text-zinc-500 text-[11px] sm:text-xs mt-1">{stat.label}</div>
             </div>
           ))}
         </div>
@@ -475,12 +474,12 @@ export default function Home() {
         {/* Country selector */}
         <div className="w-full max-w-2xl mb-4">
           <p className="text-zinc-500 text-xs mb-2">{txt.selectCountry}</p>
-          <div className="flex flex-wrap gap-2">
+          <div className="flex flex-wrap gap-1.5 sm:gap-2">
             {countries.map((c) => (
               <button
                 key={c.code}
                 onClick={() => setCountry(c.code)}
-                className={`px-3 py-2 rounded-xl border text-sm font-medium transition-all flex items-center gap-2 ${
+                className={`px-2.5 sm:px-3 py-1.5 sm:py-2 rounded-xl border text-xs sm:text-sm font-medium transition-all flex items-center gap-1.5 sm:gap-2 ${
                   country === c.code
                     ? "bg-green-600/20 border-green-500/50 text-green-400"
                     : "bg-zinc-900/40 border-zinc-700/30 text-zinc-400 hover:text-green hover:border-zinc-500"
@@ -493,69 +492,71 @@ export default function Home() {
         </div>
 
         {/* Search */}
-        <div className="w-full max-w-2xl mb-4 mt-4">
-          <div className="flex gap-3 p-2 bg-zinc-900/80 border border-zinc-700/50 rounded-2xl backdrop-blur">
+        <div className="w-full max-w-2xl mb-4 mt-2 sm:mt-4">
+          <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 p-2 bg-zinc-900/80 border border-zinc-700/50 rounded-2xl backdrop-blur">
             <input
               type="text"
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               onKeyDown={(e) => e.key === "Enter" && handleSearch()}
               placeholder={txt.placeholder}
-              className="flex-1 bg-transparent px-4 py-3 text-white placeholder-zinc-500 focus:outline-none text-base"
+              className="w-full sm:flex-1 bg-transparent px-3 sm:px-4 py-2.5 sm:py-3 text-white placeholder-zinc-500 focus:outline-none text-sm sm:text-base"
             />
-            <button
-              onClick={() => handleSearch()}
-              disabled={loading}
-              className="bg-green-600 hover:bg-green-500 disabled:bg-zinc-700 px-6 py-3 rounded-xl font-semibold transition-all duration-200 flex items-center gap-2 whitespace-nowrap"
-            >
-              {loading ? (
-                <>
-                  <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/>
-                  {txt.analyzing}
-                </>
-              ) : <>🔍 {txt.analyze}</>}
-            </button>
-            <button
-              onClick={() => setCompareMode(!compareMode)}
-              className={`px-4 py-3 rounded-xl border text-sm font-medium transition-all ${
-                compareMode
-                  ? "bg-green-600/20 border-green-500/50 text-green-400"
-                  : "bg-zinc-900/40 border-zinc-700/30 text-zinc-400 hover:text-white"
-              }`}
-            >
-              ⚖️ Сравнить
-            </button>
+            <div className="flex gap-2 sm:gap-3">
+              <button
+                onClick={() => handleSearch()}
+                disabled={loading}
+                className="flex-1 sm:flex-none justify-center bg-green-600 hover:bg-green-500 disabled:bg-zinc-700 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-all duration-200 flex items-center gap-2 whitespace-nowrap text-sm sm:text-base"
+              >
+                {loading ? (
+                  <>
+                    <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/>
+                    {txt.analyzing}
+                  </>
+                ) : <>🔍 {txt.analyze}</>}
+              </button>
+              <button
+                onClick={() => setCompareMode(!compareMode)}
+                className={`px-3 sm:px-4 py-2.5 sm:py-3 rounded-xl border text-xs sm:text-sm font-medium transition-all whitespace-nowrap ${
+                  compareMode
+                    ? "bg-green-600/20 border-green-500/50 text-green-400"
+                    : "bg-zinc-900/40 border-zinc-700/30 text-zinc-400 hover:text-white"
+                }`}
+              >
+                ⚖️ Сравнить
+              </button>
+            </div>
           </div>
           {compareMode && (
-            <div className="flex gap-3 p-2 bg-zinc-900/80 border border-zinc-700/50 rounded-2xl backdrop-blur mt-3">
+            <div className="flex flex-col sm:flex-row gap-2 sm:gap-3 p-2 bg-zinc-900/80 border border-zinc-700/50 rounded-2xl backdrop-blur mt-3">
               <input
                 type="text"
                 value={query2}
                 onChange={(e) => setQuery2(e.target.value)}
                 onKeyDown={(e) => e.key === "Enter" && handleSearch2()}
                 placeholder="Вторая профессия для сравнения..."
-                className="flex-1 bg-transparent px-4 py-3 text-white placeholder-zinc-500 focus:outline-none text-base"
+                className="w-full sm:flex-1 bg-transparent px-3 sm:px-4 py-2.5 sm:py-3 text-white placeholder-zinc-500 focus:outline-none text-sm sm:text-base"
               />
               <button
                 onClick={() => handleSearch2()}
                 disabled={loading2}
-                className="bg-green-600 hover:bg-green-500 disabled:bg-zinc-700 px-6 py-3 rounded-xl font-semibold transition-all"
+                className="bg-green-600 hover:bg-green-500 disabled:bg-zinc-700 px-5 sm:px-6 py-2.5 sm:py-3 rounded-xl font-semibold transition-all flex items-center justify-center gap-2 text-sm sm:text-base"
               >
                 {loading2 ? (
                   <div className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin"/>
-                ) : <>🔍</>}
+                ) : <>🔍 Сравнить</>}
               </button>
             </div>
           )}
         </div>
 
         {/* Examples */}
-        <div className="flex flex-wrap gap-2 mb-4 justify-center">
+        <div className="flex flex-wrap gap-1.5 sm:gap-2 mb-4 justify-center">
           {(examples[lang] || examples["en"]).map((ex) => (
             <button
               key={ex}
               onClick={() => { setQuery(ex); handleSearch(ex); }}
-              className="px-3 py-1.5 rounded-full bg-zinc-900/60 border border-green-500/20 text-zinc-400 text-sm hover:text-green-400 hover:border-green-500/50 transition-all"
+              className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-zinc-900/60 border border-green-500/20 text-zinc-400 text-xs sm:text-sm hover:text-green-400 hover:border-green-500/50 transition-all"
             >
               {ex}
             </button>
@@ -566,12 +567,12 @@ export default function Home() {
         {history.length > 0 && (
           <div className="w-full max-w-2xl mb-8">
             <p className="text-zinc-600 text-xs mb-2 text-center">{txt.recent}</p>
-            <div className="flex flex-wrap gap-2 justify-center">
+            <div className="flex flex-wrap gap-1.5 sm:gap-2 justify-center">
               {history.map((h) => (
                 <button
                   key={h}
                   onClick={() => { setQuery(h); handleSearch(h); }}
-                  className="px-3 py-1.5 rounded-full bg-zinc-900/60 border border-zinc-700/30 text-zinc-500 text-xs hover:text-white hover:border-green-500/50 transition-all flex items-center gap-1"
+                  className="px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-full bg-zinc-900/60 border border-zinc-700/30 text-zinc-500 text-xs hover:text-white hover:border-green-500/50 transition-all flex items-center gap-1"
                 >
                   <span>↺</span> {h}
                 </button>
@@ -582,9 +583,9 @@ export default function Home() {
 
         {loading && (
           <div className="w-full max-w-3xl">
-            <div className="bg-zinc-900/50 border border-zinc-700/50 rounded-2xl p-12">
+            <div className="bg-zinc-900/50 border border-zinc-700/50 rounded-2xl p-6 sm:p-12">
              {/* Прогресс бар */}
-             <div className="w-full bg-zinc-800 rounded-full h-1.5 mb-8">
+             <div className="w-full bg-zinc-800 rounded-full h-1.5 mb-6 sm:mb-8">
                <div
                className="bg-green-500 h-1.5 rounded-full transition-all duration-700"
                style={{ width: `${((step + 1) / steps.length) * 100}%` }}
@@ -602,7 +603,7 @@ export default function Home() {
       i === step ? "bg-green-400 animate-pulse scale-125" :
       "bg-zinc-600"
     }`}/>
-    <span className={`text-sm transition-all duration-300 ${
+    <span className={`text-xs sm:text-sm transition-all duration-300 ${
       i === step ? "text-green-400 font-bold" :
       i < step ? "text-green-600" :
       "text-zinc-500"
@@ -623,44 +624,44 @@ export default function Home() {
 
         {/* Result */}
         {result && !loading && (
-          <div className={compareMode && result2 ? "grid grid-cols-2 gap-4 w-full max-w-6xl" : "w-full max-w-3xl space-y-4"}>
+          <div className={compareMode && result2 ? "grid grid-cols-1 md:grid-cols-2 gap-4 w-full max-w-6xl" : "w-full max-w-3xl space-y-4"}>
             {/* Первый результат */}
             <div ref={reportRef} className="w-full space-y-4">
-              <div className="bg-gradient-to-r from-green-600/20 to-purple-600/20 border border-green-500/30 rounded-2xl p-6">
+              <div className="bg-gradient-to-r from-green-600/20 to-purple-600/20 border border-green-500/30 rounded-2xl p-4 sm:p-6">
                 <div className="flex items-center gap-3 mb-2">
-                  <span className="text-2xl">📊</span>
-                  <h2 className="text-xl font-bold text-white">{txt.result}</h2>
-                  <span className="ml-auto px-3 py-1 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 text-xs font-medium">
+                  <span className="text-xl sm:text-2xl">📊</span>
+                  <h2 className="text-lg sm:text-xl font-bold text-white">{txt.result}</h2>
+                  <span className="ml-auto px-2.5 sm:px-3 py-0.5 sm:py-1 bg-green-500/20 border border-green-500/30 rounded-full text-green-400 text-xs font-medium">
                     {txt.live}
                   </span>
                 </div>
-                <p className="text-zinc-400 text-sm">{txt.query}: <span className="text-green-400 font-medium">&quot;{query}&quot;</span></p>
+                <p className="text-zinc-400 text-xs sm:text-sm">{txt.query}: <span className="text-green-400 font-medium">&quot;{query}&quot;</span></p>
               </div>
 
               <button
                 onClick={handleExportPDF}
-                className="flex items-center gap-2 px-4 py-2 bg-green-600/20 border border-green-500/30 rounded-xl text-green-400 text-sm hover:bg-green-600/30 transition-all"
+                className="flex items-center gap-2 px-3.5 sm:px-4 py-2 bg-green-600/20 border border-green-500/30 rounded-xl text-green-400 text-xs sm:text-sm hover:bg-green-600/30 transition-all"
               >
                 📄 Скачать PDF
               </button>
 
-              <div className="bg-zinc-900/60 border border-zinc-700/50 rounded-2xl p-8 backdrop-blur">
+              <div className="bg-zinc-900/60 border border-zinc-700/50 rounded-2xl p-4 sm:p-8 backdrop-blur">
                 <ReactMarkdown
                   components={{
                     h2: ({children}) => (
-                      <h2 className="text-2xl font-bold text-white mt-8 mb-4 first:mt-0 pb-3 border-b border-zinc-700/50">{children}</h2>
+                      <h2 className="text-xl sm:text-2xl font-bold text-white mt-6 sm:mt-8 mb-3 sm:mb-4 first:mt-0 pb-2 sm:pb-3 border-b border-zinc-700/50">{children}</h2>
                     ),
                     h3: ({children}) => (
-                      <div className="mt-6 mb-3 flex items-center gap-2">
-                        <div className="w-1 h-5 bg-green-500 rounded-full"/>
-                        <h3 className="text-lg font-semibold text-green-400">{children}</h3>
+                      <div className="mt-5 sm:mt-6 mb-2.5 sm:mb-3 flex items-center gap-2">
+                        <div className="w-1 h-4 sm:h-5 bg-green-500 rounded-full"/>
+                        <h3 className="text-base sm:text-lg font-semibold text-green-400">{children}</h3>
                       </div>
                     ),
-                    p: ({children}) => <p className="text-zinc-300 leading-7 mb-4">{children}</p>,
-                    ul: ({children}) => <ul className="mb-4 space-y-2">{children}</ul>,
+                    p: ({children}) => <p className="text-zinc-300 leading-6 sm:leading-7 text-sm sm:text-base mb-3 sm:mb-4">{children}</p>,
+                    ul: ({children}) => <ul className="mb-3 sm:mb-4 space-y-2">{children}</ul>,
                     li: ({children}) => (
-                      <li className="text-zinc-300 flex items-start gap-3 bg-zinc-800/40 rounded-lg px-4 py-2.5">
-                        <span className="text-green-500 mt-0.5 text-sm shrink-0">▸</span>
+                      <li className="text-zinc-300 flex items-start gap-2.5 sm:gap-3 bg-zinc-800/40 rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm">
+                        <span className="text-green-500 mt-0.5 text-xs sm:text-sm shrink-0">▸</span>
                         <span className="leading-relaxed">{children}</span>
                       </li>
                     ),
@@ -671,16 +672,16 @@ export default function Home() {
                 </ReactMarkdown>
               </div>
 
-              <div className="grid grid-cols-3 gap-3">
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
                 {[
                   { icon: "🌐", label: txt.source, value: "Bright Data" },
                   { icon: "🤖", label: txt.analysis, value: "Gemini 2.5 Flash" },
                   { icon: "⚡", label: txt.market, value: activeCountry ? `${activeCountry.flag} ${activeCountry.name[lang as keyof typeof activeCountry.name]}` : "Global" },
                 ].map((item) => (
-                  <div key={item.label} className="bg-zinc-900/40 border border-zinc-700/30 rounded-xl p-4 text-center">
-                    <div className="text-xl mb-1">{item.icon}</div>
-                    <div className="text-zinc-500 text-xs mb-1">{item.label}</div>
-                    <div className="text-white text-sm font-medium">{item.value}</div>
+                  <div key={item.label} className="bg-zinc-900/40 border border-zinc-700/30 rounded-xl p-3 sm:p-4 text-center">
+                    <div className="text-lg sm:text-xl mb-1">{item.icon}</div>
+                    <div className="text-zinc-500 text-[11px] sm:text-xs mb-1">{item.label}</div>
+                    <div className="text-white text-xs sm:text-sm font-medium">{item.value}</div>
                   </div>
                 ))}
               </div>
@@ -690,26 +691,26 @@ export default function Home() {
             {/* Второй результат */}
             {compareMode && result2 && (
               <div className="w-full space-y-4">
-                <div className="bg-gradient-to-r from-green-600/20 to-teal-600/20 border border-green-500/30 rounded-2xl p-6">
+                <div className="bg-gradient-to-r from-green-600/20 to-teal-600/20 border border-green-500/30 rounded-2xl p-4 sm:p-6">
                   <div className="flex items-center gap-3 mb-2">
-                    <span className="text-2xl">📊</span>
-                    <h2 className="text-xl font-bold text-white">{txt.result}</h2>
+                    <span className="text-xl sm:text-2xl">📊</span>
+                    <h2 className="text-lg sm:text-xl font-bold text-white">{txt.result}</h2>
                   </div>
-                  <p className="text-zinc-400 text-sm">{txt.query}: <span className="text-green-400 font-medium">&quot;{query2}&quot;</span></p>
+                  <p className="text-zinc-400 text-xs sm:text-sm">{txt.query}: <span className="text-green-400 font-medium">&quot;{query2}&quot;</span></p>
                 </div>
-                <div className="bg-zinc-900/60 border border-zinc-700/50 rounded-2xl p-8 backdrop-blur">
+                <div className="bg-zinc-900/60 border border-zinc-700/50 rounded-2xl p-4 sm:p-8 backdrop-blur">
                   <ReactMarkdown components={{
-                    h2: ({children}) => <h2 className="text-xl font-bold text-white mt-6 mb-3 pb-2 border-b border-zinc-700/50">{children}</h2>,
+                    h2: ({children}) => <h2 className="text-lg sm:text-xl font-bold text-white mt-5 sm:mt-6 mb-3 pb-2 border-b border-zinc-700/50">{children}</h2>,
                     h3: ({children}) => (
                       <div className="mt-4 mb-2 flex items-center gap-2">
                         <div className="w-1 h-4 bg-green-500 rounded-full"/>
-                        <h3 className="text-base font-semibold text-green-400">{children}</h3>
+                        <h3 className="text-sm sm:text-base font-semibold text-green-400">{children}</h3>
                       </div>
                     ),
-                    p: ({children}) => <p className="text-zinc-300 leading-6 mb-3 text-sm">{children}</p>,
+                    p: ({children}) => <p className="text-zinc-300 leading-6 mb-3 text-xs sm:text-sm">{children}</p>,
                     ul: ({children}) => <ul className="mb-3 space-y-1">{children}</ul>,
                     li: ({children}) => (
-                      <li className="text-zinc-300 flex items-start gap-2 bg-zinc-800/40 rounded-lg px-3 py-2 text-sm">
+                      <li className="text-zinc-300 flex items-start gap-2 bg-zinc-800/40 rounded-lg px-3 py-2 text-xs sm:text-sm">
                         <span className="text-green-500 mt-0.5 text-xs shrink-0">▸</span>
                         <span>{children}</span>
                       </li>
@@ -725,29 +726,29 @@ export default function Home() {
         )}
 
         {!result && !loading && (
-          <div className="mt-4 grid grid-cols-3 gap-4 w-full max-w-2xl">
+          <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 w-full max-w-2xl">
             {[
               { icon: "🌐", title: txt.liveData, desc: txt.liveDesc },
               { icon: "🤖", title: txt.aiAnalysis, desc: txt.aiDesc },
               { icon: "⚡", title: txt.globalFocus, desc: txt.globalDesc },
             ].map((card) => (
-              <div key={card.title} className="bg-zinc-900/40 border border-zinc-700/30 rounded-xl p-4 text-center">
-                <div className="text-2xl mb-2">{card.icon}</div>
-                <div className="text-white font-medium text-sm mb-1">{card.title}</div>
-                <div className="text-zinc-500 text-xs">{card.desc}</div>
+              <div key={card.title} className="bg-zinc-900/40 border border-zinc-700/30 rounded-xl p-3.5 sm:p-4 text-center">
+                <div className="text-xl sm:text-2xl mb-1.5 sm:mb-2">{card.icon}</div>
+                <div className="text-white font-medium text-xs sm:text-sm mb-1">{card.title}</div>
+                <div className="text-zinc-500 text-[11px] sm:text-xs">{card.desc}</div>
               </div>
             ))}
           </div>
         )}
 
         {/* Footer */}
-        <div className="mt-16 mb-4 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-zinc-900/50 border border-zinc-700/30">
-            <span className="text-zinc-500 text-sm">{txt.builtBy}</span>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-purple-400 font-bold text-sm">
+        <div className="mt-12 sm:mt-16 mb-4 text-center">
+          <div className="inline-flex items-center gap-2 px-3.5 sm:px-4 py-2 rounded-full bg-zinc-900/50 border border-zinc-700/30">
+            <span className="text-zinc-500 text-xs sm:text-sm">{txt.builtBy}</span>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-green-400 to-purple-400 font-bold text-xs sm:text-sm">
               @Prosto_Proger
             </span>
-            <span className="text-zinc-600 text-xs">{txt.hackathon}</span>
+            <span className="text-zinc-600 text-[10px] sm:text-xs">{txt.hackathon}</span>
           </div>
         </div>
 
